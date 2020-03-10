@@ -35,11 +35,11 @@ class EmailOrderAdminCommand extends Command {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) : void {
-        $order = $this->repositoryOrder->findAll();
+        $order = $this->repositoryOrder->createQueryBuilder('p')->setMaxResults(1)->getFirstResult();
 
         if(!empty($order))
             $this->sender->send('order_payed',
-                $this->emailsAdmin, ['order' => $order[0]]);
+                $this->emailsAdmin, ['order' => $order]);
         else
             $output->writeln("Erreur you need to have one order");
     }

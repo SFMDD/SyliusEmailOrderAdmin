@@ -6,17 +6,25 @@
 
 * Run `composer require fmdd/sylius-email-order-admin`.
 
+* Add Bundle in your kernel 
+```bash
+    ...
+    FMDD\SyliusEmailOrderAdminPlugin\FMDDSyliusEmailOrderAdminPlugin::class => ['all' => true],
+    ...
+```
+
 * Import ressource.
 ```bash 
 #config/packages/_sylius.yaml
 imports:
-...
+    ...
     - { resource: "@FMDDSyliusEmailOrderAdminPlugin/Resources/config/config.yml"}
 ```
 * Config Parameter.
 ```bash
-#config/packages/_sylius.yaml
+#config/services.yaml
 parameters:
+    ...
     email.admins: ['email.admins@defined.com', 'secondly@defined.com']
 ```
 

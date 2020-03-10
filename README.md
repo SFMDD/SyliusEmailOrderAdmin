@@ -1,5 +1,7 @@
 <h1 align="center">Sylius Order Email Admin from Plugin Skeleton</h1>
 
+<p align="center">Send an email when an order has payed with all order item and informations of customer.</p>
+
 ## Installation
 
 * Run `composer require fmdd/sylius-email-order-admin`.

@@ -28,7 +28,7 @@ parameters:
     email.admins: ['email.admins@defined.com', 'secondly@defined.com']
 ```
 
-* Test Email `php bin/console fmdd:email:order:admin`
+* Test Email `php bin/console fmdd:email:order:admin --env=dev`
 
 
 ## Plugin Development 

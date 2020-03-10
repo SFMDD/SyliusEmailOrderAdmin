@@ -1,8 +1,8 @@
 {
-    "name": "sylius/plugin-skeleton",
+    "name": "fmdd/sylius-email-order-admin",
     "type": "sylius-plugin",
     "keywords": ["sylius", "sylius-plugin"],
-    "description": "Acme example plugin for Sylius.",
+    "description": "Plugin for sylius, to send a email hen order has payed.",
     "license": "MIT",
     "require": {
         "php": "^7.2",

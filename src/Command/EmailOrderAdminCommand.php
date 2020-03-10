@@ -35,7 +35,7 @@ class EmailOrderAdminCommand extends Command {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) : void {
-        $order = $this->repositoryOrder->createQueryBuilder('p')->getQuery()->execute()->setMaxResults(1)->getOneOrNullResult();
+        $order = $this->repositoryOrder->createQueryBuilder('p')->setMaxResults(1)->getQuery()->getOneOrNullResult();
 
         if(!is_null($order))
             $this->sender->send('order_payed',

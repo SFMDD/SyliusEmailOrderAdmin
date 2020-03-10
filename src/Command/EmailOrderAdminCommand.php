@@ -42,6 +42,6 @@ class EmailOrderAdminCommand extends Command {
                 $this->emailsAdmin, ['order' => $order]);
         else
             $output->writeln("Erreur you need to have one order");
-        $output->writeln("Finish execution, list of email admin : ". implode(",", $this->emailsAdmin);
+        $output->writeln("Finish execution, list of email admin : ". implode(",", $this->emailsAdmin));
     }
 }

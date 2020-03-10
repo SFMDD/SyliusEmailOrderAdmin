@@ -1,0 +1,17 @@
+parameters:
+  email.admins: ['email.admins@defined.com']
+
+winzou_state_machine:
+  sylius_payment:
+    callbacks:
+      after:
+        app_order_payed_email:
+          on: ['complete']
+          do: ["@sylius.email_manager.order_payed", "sendOrderPayedEmail"]
+          args: ['object.getOrder()']
+
+sylius_mailer:
+  emails:
+    order_payed:
+      subject: "New order"
+      template: "@FMDDSyliusEmailOrderAdminPlugin/Email/boughtRequest.html.twig"

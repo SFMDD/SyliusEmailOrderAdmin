@@ -30,7 +30,7 @@ class EmailOrderAdminCommand extends Command {
 
     protected function configure(): void {
         $this
-            ->setName('email:order:admin')
+            ->setName('fmdd:email:order:admin')
             ->setDescription('');
     }
 

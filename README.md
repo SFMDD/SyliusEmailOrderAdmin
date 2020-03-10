@@ -1,10 +1,28 @@
 <h1 align="center">Sylius Order Email Admin from Plugin Skeleton</h1>
 
-<p align="center">Skeleton for starting Sylius plugins.</p>
-
 ## Installation
 
-1. Run `composer create-project sylius/plugin-skeleton ProjectName`.
+* Run `composer require fmdd/sylius-email-order-admin`.
+
+* Import ressource.
+```bash 
+#config/packages/_sylius.yaml
+imports:
+...
+    - { resource: "@FMDDSyliusEmailOrderAdminPlugin/Resources/config/config.yml"}
+```
+* Config Parameter.
+```bash
+#config/packages/_sylius.yaml
+parameters:
+    email.admins: ['email.admins@defined.com', 'secondly@defined.com']
+```
+
+* Test Email `php bin/console fmdd:email:order:admin`
+
+
+## Plugin Development 
+<p align="center">Skeleton for starting Sylius plugins.</p>
 
 2. From the plugin skeleton root directory, run the following commands:
 

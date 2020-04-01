@@ -1,5 +1,5 @@
 services:
-  sylius.email_manager.order_payed:
+  fmdd.email_manager.order_payed:
     public: true
     class: FMDD\SyliusEmailOrderAdminPlugin\Manager\EmailManager
     arguments: ['@sylius.email_sender', '%kernel.environment%', '%email.admins%']

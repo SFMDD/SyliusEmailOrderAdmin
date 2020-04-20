@@ -7,7 +7,7 @@ winzou_state_machine:
       after:
         app_order_payed_email:
           on: ['complete']
-          do: ["@sylius.email_manager.order_payed", "sendOrderPayedEmail"]
+          do: ["@fmdd.email_manager.order_payed", "sendOrderPayedEmail"]
           args: ['object.getOrder()']
 
 sylius_mailer:

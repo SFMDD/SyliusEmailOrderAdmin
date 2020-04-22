@@ -68,7 +68,7 @@
                             <tr>
                                 <td style="width:360px;max-width:60%;">{{ item.variant.code }} - {{ item.variant.name }}</td>
                                 <td style="width:60px;max-width:10%;">{{ item.quantity }}</td>
-                                <td style="width:60px;max-width:10%;"><div style="text-align: center;">{{ money.convertAndFormat(item.subtotal)}} TTC</div></td>
+                                <td style="width:60px;max-width:10%;"><div style="text-align: center;">{{ item.total|sylius_format_money(order.currencyCode, order.localeCode) }}</div></td>
                             </tr>
                         {% endfor %}
 

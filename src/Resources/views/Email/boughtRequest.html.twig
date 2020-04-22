@@ -14,9 +14,7 @@
            border="0" cellpadding="0" cellspacing="0"
            width="100%" style="table-layout: fixed;">
         <tr>
-            <td style="padding:30px 45px 30px 45px;line-height:22px;text-align:inherit;"
-                height="100%"
-                valign="top"
+            <td style="padding:30px 45px 30px 45px;line-height:22px;text-align:inherit;" height="100%" valign="top"
                 bgcolor="">
                 <div style="text-align: center;"><span
                             style="color:#333333;">Confirmation order number : {{ order.number }}</span>
@@ -25,32 +23,45 @@
         </tr>
     </table>
 
-    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;">
+    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%"
+           style="table-layout: fixed;">
         <tr>
             <td style="padding:25px 20px 25px 20px;line-height:20px;text-align:inherit;"
                 height="100%"
                 valign="top"
                 bgcolor="">
-                <h2 style="text-align: center;">Details ORDER Recu</h2>
+                <h2 style="text-align: center;">Details order</h2>
+                Email customer : {{ order.customer.email }}<br/>
+                Phone customer : {{ order.customer.phoneNumber }}
             </td>
         </tr>
     </table>
-    <table class="module" role="module" data-type="code" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;">
+    <table class="module" role="module" data-type="code" border="0" cellpadding="0" cellspacing="0" width="100%"
+           style="table-layout: fixed;">
         <tr>
             <td height="100%" valign="top">
                 <div>
                     <table align="center" border="0" cellpadding="0" cellspacing="0" style="width:100%;">
                         <tbody>
                         <tr>
-                            <td style="width:360px;max-width:60%;"><div style="text-align: center;">Reference</div></td>
-                            <td style="width:60px;max-width:10%;"><div style="text-align: center;">Quantity</div></td>
-                            <td style="width:60px;max-width:10%;"><div style="text-align: center;">Price</div></td>
+                            <td style="width:360px;max-width:60%;">
+                                <div style="text-align: center;">Reference</div>
+                            </td>
+                            <td style="width:60px;max-width:10%;">
+                                <div style="text-align: center;">Quantity</div>
+                            </td>
+                            <td style="width:60px;max-width:10%;">
+                                <div style="text-align: center;">Price</div>
+                            </td>
                         </tr>
                         {% for item in order.items %}
                             <tr>
-                                <td style="width:360px;max-width:60%;">{{ item.variant.code }} - {{ item.variant.name }}</td>
+                                <td style="width:360px;max-width:60%;">{{ item.variant.code }}
+                                    - {{ item.variant.name }}</td>
                                 <td style="width:60px;max-width:10%;">{{ item.quantity }}</td>
-                                <td style="width:60px;max-width:10%;"><div style="text-align: center;">{{ item.total|sylius_format_money(order.currencyCode, order.localeCode) }}</div></td>
+                                <td style="width:60px;max-width:10%;">
+                                    <div style="text-align: center;">{{ item.total|sylius_format_money(order.currencyCode, order.localeCode) }}</div>
+                                </td>
                             </tr>
                         {% endfor %}
 
@@ -104,61 +115,74 @@
         </tr>
     </table>
 
-    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;">
+    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%"
+           style="table-layout: fixed;">
         <tr>
             <td style="padding:25px 20px 25px 20px;line-height:20px;text-align:inherit;"
                 height="100%"
                 valign="top"
                 bgcolor="">
-                <h2 style="text-align: center;"><span style="color:#333333;">{{ 'sylius.ui.shipping_address'|trans({}, "messages") }}</span></h2>
+                <h2 style="text-align: center;"><span
+                            style="color:#333333;">{{ 'sylius.ui.shipping_address'|trans({}, "messages") }}</span></h2>
 
             </td>
         </tr>
     </table>
 
-    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;">
+    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%"
+           style="table-layout: fixed;">
         <tr>
             <td style="padding:0px 0px 30px 0px;line-height:22px;text-align:inherit;"
                 height="100%"
                 valign="top"
                 bgcolor="">
-                <div style="text-align: center;"><font color="#333333">{{order.shippingAddress.company}}</font></div>
+                <div style="text-align: center;"><font color="#333333">{{ order.shippingAddress.company }}</font></div>
 
-                <div style="text-align: center;"><font color="#333333">{{order.shippingAddress.firstName}}</font></div>
+                <div style="text-align: center;"><font color="#333333">{{ order.shippingAddress.firstName }}</font>
+                </div>
 
-                <div style="text-align: center;"><font color="#333333">{{order.shippingAddress.phoneNumber}}</font></div>
+                <div style="text-align: center;"><font color="#333333">{{ order.shippingAddress.phoneNumber }}</font>
+                </div>
 
-                <div style="text-align: center;"><font color="#333333">{{ order.shippingAddress.countryCode|sylius_country_name|upper }} {{order.shippingAddress.street}}, {{order.shippingAddress.city}} {{order.shippingAddress.postcode}}</font></div>
+                <div style="text-align: center;"><font
+                            color="#333333">{{ order.shippingAddress.countryCode|sylius_country_name|upper }} {{ order.shippingAddress.street }}
+                        , {{ order.shippingAddress.city }} {{ order.shippingAddress.postcode }}</font></div>
 
             </td>
         </tr>
     </table>
 
-    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;">
+    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%"
+           style="table-layout: fixed;">
         <tr>
             <td style="padding:25px 20px 25px 20px;line-height:20px;text-align:inherit;"
                 height="100%"
                 valign="top"
                 bgcolor="">
-                <h2 style="text-align: center;"><span style="color:#333333;">{{ 'sylius.ui.billing_address'|trans({}, "messages") }}</span></h2>
+                <h2 style="text-align: center;"><span
+                            style="color:#333333;">{{ 'sylius.ui.billing_address'|trans({}, "messages") }}</span></h2>
 
             </td>
         </tr>
     </table>
 
-    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;">
+    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%"
+           style="table-layout: fixed;">
         <tr>
             <td style="padding:0px 0px 30px 0px;line-height:22px;text-align:inherit;"
                 height="100%"
                 valign="top"
                 bgcolor="">
-                <div style="text-align: center;"><font color="#333333">{{order.billingAddress.company}}</font></div>
+                <div style="text-align: center;"><font color="#333333">{{ order.billingAddress.company }}</font></div>
 
-                <div style="text-align: center;"><font color="#333333">{{order.billingAddress.firstName}}</font></div>
+                <div style="text-align: center;"><font color="#333333">{{ order.billingAddress.firstName }}</font></div>
 
-                <div style="text-align: center;"><font color="#333333">{{order.billingAddress.phoneNumber}}</font></div>
+                <div style="text-align: center;"><font color="#333333">{{ order.billingAddress.phoneNumber }}</font>
+                </div>
 
-                <div style="text-align: center;"><font color="#333333">{{ order.billingAddress.countryCode|sylius_country_name|upper }} {{order.billingAddress.street}}, {{order.billingAddress.city}} {{order.billingAddress.postcode}}</font></div>
+                <div style="text-align: center;"><font
+                            color="#333333">{{ order.billingAddress.countryCode|sylius_country_name|upper }} {{ order.billingAddress.street }}
+                        , {{ order.billingAddress.city }} {{ order.billingAddress.postcode }}</font></div>
 
             </td>
         </tr>

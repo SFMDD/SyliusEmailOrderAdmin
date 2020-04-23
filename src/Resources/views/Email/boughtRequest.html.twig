@@ -56,8 +56,13 @@
                         </tr>
                         {% for item in order.items %}
                             <tr>
-                                <td style="width:360px;max-width:60%;">{{ item.variant.code }}
-                                    - {{ item.variant.name }}</td>
+                                {% if item.variant.product.simple %}
+                                    <td style="width:360px;max-width:60%;">{{ item.variant.product.code }}
+                                        - {{ item.variant.product.name }} </td>
+                                {% else %}
+                                    <td style="width:360px;max-width:60%;">{{ item.variant.code }}
+                                        - {{ item.variant.name }} </td>
+                                {% endif %}
                                 <td style="width:60px;max-width:10%;">{{ item.quantity }}</td>
                                 <td style="width:60px;max-width:10%;">
                                     <div style="text-align: center;">{{ item.total|sylius_format_money(order.currencyCode, order.localeCode) }}</div>

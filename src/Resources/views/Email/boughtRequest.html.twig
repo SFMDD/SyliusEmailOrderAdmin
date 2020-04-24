@@ -1,195 +1,69 @@
 {% extends '@FMDDSyliusEmailOrderAdminPlugin/Email/layout_email.html.twig' %}
 {% trans_default_domain "emails" %}
 
-
 {% block subject %}
-    NEW ORDER FOR {{ order.customer.firstname }} {{ order.customer.lastname }}
+    Nouvelle commande de {{ order.customer.firstname }} {{ order.customer.lastname }}
 {% endblock %}
 
 {% block body_email %}
-
     {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
 
-    <table class="module" role="module" data-type="text"
-           border="0" cellpadding="0" cellspacing="0"
-           width="100%" style="table-layout: fixed;">
-        <tr>
-            <td style="padding:30px 45px 30px 45px;line-height:22px;text-align:inherit;" height="100%" valign="top"
-                bgcolor="">
-                <div style="text-align: center;"><span
-                            style="color:#333333;">Confirmation order number : {{ order.number }}</span>
-                </div>
-            </td>
-        </tr>
+    <h2>Détails de la commande : #{{ order.number }}</h2>
+
+    <ul>
+        <li>Prénom/Nom : {{ order.customer.firstname }} {{ order.customer.lastname }}</li>
+        <li>Email : {{ order.customer.email }}</li>
+        <li>Téléphone : {{ order.customer.phoneNumber }}</li>
+    </ul>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <td style="padding: 5px; font-weight: bold; width:250px">Adresse de livraison</td>
+                <td style="padding: 5px; font-weight: bold; width:250px">Adresse de facturation</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 5px;">
+                    <div>{{ order.shippingAddress.firstName }} {{ order.shippingAddress.lastname }} ({{ order.shippingAddress.company }})</div>
+                    <div>{{ order.shippingAddress.phoneNumber }}</div>
+                    <div>{{ order.shippingAddress.street }}, {{ order.shippingAddress.city }} {{ order.shippingAddress.postcode }}, {{ order.shippingAddress.countryCode|sylius_country_name|upper }} </div>
+                </td>
+                <td style="padding: 5px;">
+                    <div>{{ order.billingAddress.firstName }} {{ order.billingAddress.lastname }} ({{ order.billingAddress.company }})</div>
+                    <div>{{ order.billingAddress.phoneNumber }}</div>
+                    <div>{{ order.billingAddress.street }}, {{ order.billingAddress.city }} {{ order.billingAddress.postcode }}, {{ order.billingAddress.countryCode|sylius_country_name|upper }}</div>
+                </td>
+            </tr>
+        </tbody>
     </table>
 
-    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%"
-           style="table-layout: fixed;">
-        <tr>
-            <td style="padding:25px 20px 25px 20px;line-height:20px;text-align:inherit;"
-                height="100%"
-                valign="top"
-                bgcolor="">
-                <h2 style="text-align: center;">Details order</h2>
-                Email customer : {{ order.customer.email }}<br/>
-                Phone customer : {{ order.customer.phoneNumber }}
-            </td>
-        </tr>
-    </table>
-    <table class="module" role="module" data-type="code" border="0" cellpadding="0" cellspacing="0" width="100%"
-           style="table-layout: fixed;">
-        <tr>
-            <td height="100%" valign="top">
-                <div>
-                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="width:100%;">
-                        <tbody>
-                        <tr>
-                            <td style="width:360px;max-width:60%;">
-                                <div style="text-align: center;">Reference</div>
-                            </td>
-                            <td style="width:60px;max-width:10%;">
-                                <div style="text-align: center;">Quantity</div>
-                            </td>
-                            <td style="width:60px;max-width:10%;">
-                                <div style="text-align: center;">Price</div>
-                            </td>
-                        </tr>
-                        {% for item in order.items %}
-                            <tr>
-                                {% if item.variant.product.simple %}
-                                    <td style="width:360px;max-width:60%;">{{ item.variant.product.code }}
-                                        - {{ item.variant.product.name }} </td>
-                                {% else %}
-                                    <td style="width:360px;max-width:60%;">{{ item.variant.code }}
-                                        - {{ item.variant.name }} </td>
-                                {% endif %}
-                                <td style="width:60px;max-width:10%;">{{ item.quantity }}</td>
-                                <td style="width:60px;max-width:10%;">
-                                    <div style="text-align: center;">{{ item.total|sylius_format_money(order.currencyCode, order.localeCode) }}</div>
-                                </td>
-                            </tr>
-                        {% endfor %}
+    <h2>Articles</h2>
 
-                        <tr>
-                            <td style="width:200px;max-width:33.333%;">&nbsp;</td>
-                            <td style="width:200px;max-width:33.333%;">&nbsp;</td>
-                            <td style="width:200px;max-width:33.333%;">&nbsp;</td>
-                        </tr>
+    <table border="1">
+        <thead>
+            <tr>
+                <td style="padding: 5px; font-weight: bold; width:250px">Référence</td>
+                <td style="padding: 5px; font-weight: bold; width:50px">Quantité</td>
+                <td style="padding: 5px; font-weight: bold; width:50px">Price</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in order.items %}
+            <tr>
+                {% if item.variant.product.simple %}
+                    <td style="padding: 5px;">{{ item.variant.product.code }}- {{ item.variant.product.name }} </td>
+                {% else %}
+                    <td style="padding: 5px;">{{ item.variant.code }} - {{ item.variant.name }} </td>
+                {% endif %}
+                <td style="padding: 5px;">{{ item.quantity }}</td>
+                <td style="padding: 5px;">{{ item.total|sylius_format_money(order.currencyCode, order.localeCode) }}</td>
+            </tr>
+        {% endfor %}
 
-                        {% include '@SyliusShop/Common/Order/Table/_totals.html.twig' %}
-                        <tr>
-                            <td style="width:200px;max-width:33.333%;">&nbsp;</td>
-                            <td style="width:200px;max-width:33.333%;">&nbsp;</td>
-                            <td style="width:200px;max-width:33.333%;">&nbsp;</td>
-                        </tr>
-                        </tbody>
-                    </table>
-
-                </div>
-            </td>
-        </tr>
-    </table>
-    <table class="module"
-           role="module"
-           data-type="divider"
-           border="0"
-           cellpadding="0"
-           cellspacing="0"
-           width="100%"
-           style="table-layout: fixed;">
-        <tr>
-            <td style="padding:0px 0px 0px 0px;"
-                role="module-content"
-                height="100%"
-                valign="top"
-                bgcolor="">
-                <table border="0"
-                       cellpadding="0"
-                       cellspacing="0"
-                       align="center"
-                       width="100%"
-                       height="5px"
-                       style="line-height:5px; font-size:5px;">
-                    <tr>
-                        <td
-                                style="padding: 0px 0px 5px 0px;"
-                                bgcolor="#ebebeb"></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+        {% include '@SyliusShop/Common/Order/Table/_totals.html.twig' %}
+        </tbody>
     </table>
 
-    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%"
-           style="table-layout: fixed;">
-        <tr>
-            <td style="padding:25px 20px 25px 20px;line-height:20px;text-align:inherit;"
-                height="100%"
-                valign="top"
-                bgcolor="">
-                <h2 style="text-align: center;"><span
-                            style="color:#333333;">{{ 'sylius.ui.shipping_address'|trans({}, "messages") }}</span></h2>
-
-            </td>
-        </tr>
-    </table>
-
-    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%"
-           style="table-layout: fixed;">
-        <tr>
-            <td style="padding:0px 0px 30px 0px;line-height:22px;text-align:inherit;"
-                height="100%"
-                valign="top"
-                bgcolor="">
-                <div style="text-align: center;"><font color="#333333">{{ order.shippingAddress.company }}</font></div>
-
-                <div style="text-align: center;"><font color="#333333">{{ order.shippingAddress.firstName }}</font>
-                </div>
-
-                <div style="text-align: center;"><font color="#333333">{{ order.shippingAddress.phoneNumber }}</font>
-                </div>
-
-                <div style="text-align: center;"><font
-                            color="#333333">{{ order.shippingAddress.countryCode|sylius_country_name|upper }} {{ order.shippingAddress.street }}
-                        , {{ order.shippingAddress.city }} {{ order.shippingAddress.postcode }}</font></div>
-
-            </td>
-        </tr>
-    </table>
-
-    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%"
-           style="table-layout: fixed;">
-        <tr>
-            <td style="padding:25px 20px 25px 20px;line-height:20px;text-align:inherit;"
-                height="100%"
-                valign="top"
-                bgcolor="">
-                <h2 style="text-align: center;"><span
-                            style="color:#333333;">{{ 'sylius.ui.billing_address'|trans({}, "messages") }}</span></h2>
-
-            </td>
-        </tr>
-    </table>
-
-    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%"
-           style="table-layout: fixed;">
-        <tr>
-            <td style="padding:0px 0px 30px 0px;line-height:22px;text-align:inherit;"
-                height="100%"
-                valign="top"
-                bgcolor="">
-                <div style="text-align: center;"><font color="#333333">{{ order.billingAddress.company }}</font></div>
-
-                <div style="text-align: center;"><font color="#333333">{{ order.billingAddress.firstName }}</font></div>
-
-                <div style="text-align: center;"><font color="#333333">{{ order.billingAddress.phoneNumber }}</font>
-                </div>
-
-                <div style="text-align: center;"><font
-                            color="#333333">{{ order.billingAddress.countryCode|sylius_country_name|upper }} {{ order.billingAddress.street }}
-                        , {{ order.billingAddress.city }} {{ order.billingAddress.postcode }}</font></div>
-
-            </td>
-        </tr>
-    </table>
 {% endblock %}

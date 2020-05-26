@@ -1,53 +1,81 @@
 {% extends '@FMDDSyliusEmailOrderAdminPlugin/Email/layout_email.html.twig' %}
-{% trans_default_domain "emails" %}
 
 {% block subject %}
-    Nouvelle commande de {{ order.customer.firstname }} {{ order.customer.lastname }}
+    {% set firstName = order.shippingAddress.firstName %}
+    {% if order.customer.firstName is not empty %}
+        {% set firstName = order.customer.firstName %}
+    {% endif %}
+
+    {% set lastName = order.shippingAddress.lastName %}
+    {% if order.customer.lastName is not empty %}
+        {% set lastName = order.customer.lastName %}
+    {% endif %}
+
+    {% set phoneNumber = order.shippingAddress.phoneNumber %}
+    {% if order.customer.phoneNumber is not empty %}
+        {% set phoneNumber = order.customer.phoneNumber %}
+    {% endif %}
+
+    {{ 'fmdd_email_order_admin.email.subject'|trans({'%order_number%': order.number, '%customer_firstname%': firstName, '%customer_lastname%': lastName }) }}
 {% endblock %}
 
 {% block body_email %}
+    {% set firstName = order.shippingAddress.firstName %}
+    {% if order.customer.firstName is not empty %}
+        {% set firstName = order.customer.firstName %}
+    {% endif %}
+
+    {% set lastName = order.shippingAddress.lastName %}
+    {% if order.customer.lastName is not empty %}
+        {% set lastName = order.customer.lastName %}
+    {% endif %}
+
+    {% set phoneNumber = order.shippingAddress.phoneNumber %}
+    {% if order.customer.phoneNumber is not empty %}
+        {% set phoneNumber = order.customer.phoneNumber %}
+    {% endif %}
+
     {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
 
-    <h2>Détails de la commande : #{{ order.number }}</h2>
-
+    <h2>{{ 'fmdd_email_order_admin.email.header'|trans({'%order_number%': order.number }) }}</h2>
     <ul>
-        <li>Prénom/Nom : {{ order.customer.firstname }} {{ order.customer.lastname }}</li>
-        <li>Email : {{ order.customer.email }}</li>
-        <li>Téléphone : {{ order.customer.phoneNumber }}</li>
+        <li>{{ 'fmdd_email_order_admin.email.name'|trans({'%customer_firstname%': firstName, '%customer_lastname%': lastName }) }}</li>
+        <li>{{ 'fmdd_email_order_admin.email.email'|trans({'%customer_email%': order.customer.email }) }}</li>
+        <li>{{ 'fmdd_email_order_admin.email.phone'|trans({'%customer_phone_number%': order.customer.phoneNumber }) }}</li>
     </ul>
 
     <table border="1">
         <thead>
-            <tr>
-                <td style="padding: 5px; font-weight: bold; width:250px">Adresse de livraison</td>
-                <td style="padding: 5px; font-weight: bold; width:250px">Adresse de facturation</td>
-            </tr>
+        <tr>
+            <td style="padding: 5px; font-weight: bold; width:250px">{{ 'fmdd_email_order_admin.email.delivery_address' }}</td>
+            <td style="padding: 5px; font-weight: bold; width:250px">{{ 'fmdd_email_order_admin.email.invoice_address' }}</td>
+        </tr>
         </thead>
         <tbody>
-            <tr>
-                <td style="padding: 5px;">
-                    <div>{{ order.shippingAddress.firstName }} {{ order.shippingAddress.lastname }} ({{ order.shippingAddress.company }})</div>
-                    <div>{{ order.shippingAddress.phoneNumber }}</div>
-                    <div>{{ order.shippingAddress.street }}, {{ order.shippingAddress.city }} {{ order.shippingAddress.postcode }}, {{ order.shippingAddress.countryCode|sylius_country_name|upper }} </div>
-                </td>
-                <td style="padding: 5px;">
-                    <div>{{ order.billingAddress.firstName }} {{ order.billingAddress.lastname }} ({{ order.billingAddress.company }})</div>
-                    <div>{{ order.billingAddress.phoneNumber }}</div>
-                    <div>{{ order.billingAddress.street }}, {{ order.billingAddress.city }} {{ order.billingAddress.postcode }}, {{ order.billingAddress.countryCode|sylius_country_name|upper }}</div>
-                </td>
-            </tr>
+        <tr>
+            <td style="padding: 5px;">
+                <div>{{ order.shippingAddress.firstName }} {{ order.shippingAddress.lastName }} ({{ order.shippingAddress.company }})</div>
+                <div>{{ order.shippingAddress.phoneNumber }}</div>
+                <div>{{ order.shippingAddress.street }}, {{ order.shippingAddress.city }} {{ order.shippingAddress.postcode }}, {{ order.shippingAddress.countryCode|sylius_country_name|upper }} </div>
+            </td>
+            <td style="padding: 5px;">
+                <div>{{ order.billingAddress.firstName }} {{ order.billingAddress.lastName }} ({{ order.billingAddress.company }})</div>
+                <div>{{ order.billingAddress.phoneNumber }}</div>
+                <div>{{ order.billingAddress.street }}, {{ order.billingAddress.city }} {{ order.billingAddress.postcode }}, {{ order.billingAddress.countryCode|sylius_country_name|upper }}</div>
+            </td>
+        </tr>
         </tbody>
     </table>
 
-    <h2>Articles</h2>
+    <h2>{{ 'fmdd_email_order_admin.email.articles.header'|trans }}</h2>
 
     <table border="1">
         <thead>
-            <tr>
-                <td style="padding: 5px; font-weight: bold; width:250px">Référence</td>
-                <td style="padding: 5px; font-weight: bold; width:50px">Quantité</td>
-                <td style="padding: 5px; font-weight: bold; width:50px">Price</td>
-            </tr>
+        <tr>
+            <td style="padding: 5px; font-weight: bold; width:250px">{{ 'fmdd_email_order_admin.email.articles.reference'|trans }}</td>
+            <td style="padding: 5px; font-weight: bold; width:50px">{{ 'fmdd_email_order_admin.email.articles.quantity'|trans }}</td>
+            <td style="padding: 5px; font-weight: bold; width:50px">{{ 'fmdd_email_order_admin.email.articles.price'|trans }}</td>
+        </tr>
         </thead>
         <tbody>
         {% for item in order.items %}

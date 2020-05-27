@@ -30,10 +30,10 @@ parameters:
 
 * Test Email `php bin/console fmdd:email:order:admin --env=dev --locale=en`
 
-#Translations available :
-    - FR
-    - EN
-    - NL
+## Translations available :
+* FR
+* EN
+* NL
 
 ## Plugin Development 
 <p align="center">Skeleton for starting Sylius plugins.</p>

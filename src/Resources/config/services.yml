@@ -7,6 +7,6 @@ services:
 
   fmdd.email.order.admin.command:
     tags:
-      - name: 'console.command'
+      - { name: console.command, command: 'fmdd:email:order:admin' }
     class: FMDD\SyliusEmailOrderAdminPlugin\Command\EmailOrderAdminCommand
     arguments: ['@sylius.email_sender', '@sylius.repository.order', '%email.admins%', '@translator']

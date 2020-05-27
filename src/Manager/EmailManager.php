@@ -7,17 +7,11 @@ use Sylius\Component\Mailer\Sender\SenderInterface;
 
 class EmailManager
 {
-    /**
-     * @var SenderInterface
-     */
+    /** @var SenderInterface */
     private $emailSender;
-    /**
-     * @var string
-     */
+    /** @var string */
     private $environment;
-    /**
-     * @var array
-     */
+    /** @var array */
     private $emails;
 
     /**
@@ -37,11 +31,6 @@ class EmailManager
      */
     public function sendOrderPayedEmail(OrderInterface $order)
     {
-        if ($this->environment != "dev")
-            $this->emailSender->send('order_payed',
-                $this->emails, ['order' => $order]);
-        else
-            $this->emailSender->send('order_payed',
-                $this->emails, ['order' => $order]);
+        $this->emailSender->send('order_payed', $this->emails, ['order' => $order]);
     }
 }

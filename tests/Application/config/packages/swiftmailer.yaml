@@ -1,2 +1,7 @@
 swiftmailer:
     url: '%env(MAILER_URL)%'
+
+sylius_mailer:
+    sender:
+        name: "TEST ORDER ADMIN"
+        address: "no-reply@defined.com"

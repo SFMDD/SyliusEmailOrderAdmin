@@ -28,8 +28,12 @@ parameters:
     email.admins: ['email.admins@defined.com', 'secondly@defined.com']
 ```
 
-* Test Email `php bin/console fmdd:email:order:admin --env=dev`
+* Test Email `php bin/console fmdd:email:order:admin --env=dev --locale=en`
 
+#Translations available :
+    - FR
+    - EN
+    - NL
 
 ## Plugin Development 
 <p align="center">Skeleton for starting Sylius plugins.</p>

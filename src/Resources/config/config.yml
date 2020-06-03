@@ -1,5 +1,6 @@
 parameters:
-  email.admins: ['email.admins@defined.com']
+  email.admins: ['example@example.org']
+  email.exception: ['example@example.org']
 
 winzou_state_machine:
   sylius_payment:

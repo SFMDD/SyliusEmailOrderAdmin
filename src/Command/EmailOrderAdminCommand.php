@@ -4,7 +4,7 @@ namespace FMDD\SyliusEmailOrderAdminPlugin\Command;
 
 use Doctrine\ORM\NonUniqueResultException;
 use Sylius\Bundle\CoreBundle\Doctrine\ORM\OrderRepository;
-use Sylius\Component\Mailer\Sender\Sender;
+use Sylius\Component\Mailer\Sender\SenderInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,7 +14,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EmailOrderAdminCommand extends Command
 {
-    /** @var Sender $sender */
+    /** @var SenderInterface $sender */
     private $sender;
     /** @var OrderRepository $repositoryOrder */
     private $repositoryOrder;
@@ -25,12 +25,12 @@ class EmailOrderAdminCommand extends Command
 
     /**
      * EmailOrderAdminCommand constructor.
-     * @param Sender $sender
+     * @param SenderInterface $sender
      * @param OrderRepository $orderRepository
      * @param array $emailsAdmin
      * @param TranslatorInterface $translator
      */
-    public function __construct(Sender $sender, OrderRepository $orderRepository, array $emailsAdmin, TranslatorInterface $translator)
+    public function __construct(SenderInterface $sender, OrderRepository $orderRepository, array $emailsAdmin, TranslatorInterface $translator)
     {
         $this->sender = $sender;
         $this->repositoryOrder = $orderRepository;

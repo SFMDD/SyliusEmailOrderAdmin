@@ -11,4 +11,6 @@ fmdd_email_order_admin:
             header: 'Articles'
             reference: 'Référence'
             quantity: 'Quantité'
+            tax.exclude: "HT"
+            tax.include: "TTC"
             price: 'Price'

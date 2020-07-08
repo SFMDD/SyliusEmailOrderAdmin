@@ -59,9 +59,9 @@
         <thead>
         <tr>
             <td style="padding: 5px; font-weight: bold; width:250px">{{ 'fmdd_email_order_admin.email.articles.reference'|trans }}</td>
-            <td style="padding: 5px; font-weight: bold; width:50px">{{ 'fmdd_email_order_admin.email.articles.quantity'|trans }}</td>
-            <td style="padding: 5px; font-weight: bold; width:50px">{{ 'fmdd_email_order_admin.email.articles.pu'|trans }}</td>
-            <td style="padding: 5px; font-weight: bold; width:50px">{{ 'fmdd_email_order_admin.email.articles.price'|trans }}</td>
+            <td style="padding: 5px; font-weight: bold; width:50px">{{ 'sylius.ui.qty'|trans }}</td>
+            <td style="padding: 5px; font-weight: bold; width:50px">{{ 'sylius.ui.unit_price'|trans }} {{ 'fmdd_email_order_admin.email.articles.tax.exclude'|trans }}</td>
+            <td style="padding: 5px; font-weight: bold; width:50px">{{ 'sylius.ui.subtotal'|trans }} {{ 'fmdd_email_order_admin.email.articles.tax.include'|trans }}</td>
         </tr>
         </thead>
         <tbody>
@@ -92,7 +92,7 @@
             <table>
                 <tbody>
                 <tr class="cart-subtotal">
-                    <td>{{ "shop.cart.sub_total"|trans({}, 'messages') }} {{ "product.ht"|trans({}, 'messages') }}</td>
+                    <td>{{ 'sylius.ui.subtotal'|trans }} {{ 'fmdd_email_order_admin.email.articles.tax.exclude'|trans }}</td>
                     <td>{{ money.convertAndFormat(itemsSubtotal) }}</td>
                 </tr>
                 {% if taxExcluded %}
@@ -108,12 +108,14 @@
                     </tr>
                 {% endif %}
 
-                {% if order.shipments is not empty %}
                     <tr class="shipping">
                         <td>{{ 'sylius.ui.shipping_estimated_cost'|trans }}</td>
-                        <td>{{ money.convertAndFormat(order.shippingTotal) }}</td>
+                        {% if order.shipments is not empty %}
+                            <td>{{ money.convertAndFormat(order.shippingTotal) }}</td>
+                        {% else %}
+                            <td>No Set</td>
+                        {% endif %}
                     </tr>
-                {% endif %}
 
                 {% if order.orderPromotionTotal %}
                     <tr class="shipping">
@@ -124,7 +126,7 @@
 
                 <tr class="order-total">
                     <td>{{ 'sylius.ui.order_total'|trans }}</td>
-                    <td><strong>{{ money.convertAndFormat(order.total) }}</strong></td>
+                    <td><strong>{{ money.convertAndFormat(order.total) }} {{ 'fmdd_email_order_admin.email.articles.tax.include'|trans }}</strong></td>
                 </tr>
                 {% if order.currencyCode is not same as(sylius.currencyCode) %}
                     <tr class="order-total">

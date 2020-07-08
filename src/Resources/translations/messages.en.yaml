@@ -11,4 +11,6 @@ fmdd_email_order_admin:
             header: 'Articles'
             reference: 'Reference'
             quantity: 'Quantity'
+            tax.exclude: "excl. taxes."
+            tax.include: "incl. taxes"
             price: 'Price'

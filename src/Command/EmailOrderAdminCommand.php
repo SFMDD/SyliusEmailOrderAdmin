@@ -51,7 +51,6 @@ class EmailOrderAdminCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @throws NonUniqueResultException
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
@@ -59,7 +58,9 @@ class EmailOrderAdminCommand extends Command
             $this->translator->setLocale($locale);
         }
 
-        $order = $this->repositoryOrder->createQueryBuilder('p')->setMaxResults(1)->getQuery()->getOneOrNullResult();
+
+        $orders = $this->repositoryOrder->findBy(array('checkoutState' => 'completed'));
+        $order = $orders[array_rand($orders)];
 
         if (!is_null($order)) {
             $this->sender->send('order_payed', $this->emailsAdmin, ['order' => $order]);

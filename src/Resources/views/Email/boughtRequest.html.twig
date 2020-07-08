@@ -6,7 +6,6 @@
 {% block subject %}
     {% set firstName = order.customer.firstName is not empty ? order.customer.firstName : order.shippingAddress.firstName %}
     {% set lastName = order.customer.lastName is not empty ? order.customer.lastName : order.shippingAddress.lastName %}
-    {% set phoneNumber = order.customer.phoneNumber is not empty ? order.customer.phoneNumber : order.shippingAddress.phoneNumber %}
 
     {{ 'fmdd_email_order_admin.email.subject'|trans({'%order_number%': order.number, '%customer_firstname%': firstName, '%customer_lastname%': lastName }) }}
 {% endblock %}
@@ -14,7 +13,7 @@
 {% block body_email %}
     {% set firstName = order.customer.firstName is not empty ? order.customer.firstName : order.shippingAddress.firstName %}
     {% set lastName = order.customer.lastName is not empty ? order.customer.lastName : order.shippingAddress.lastName %}
-    {% set phoneNumber = order.customer.phoneNumber is not empty ? order.customer.phoneNumber : order.shippingAddress.phoneNumber %}
+    {% set phoneNumber = order.customer.phoneNumber is not empty ? order.customer.phoneNumber : order.shippingAddress is not null ? order.shippingAddress.phoneNumber : ' ' %}
 
     <h2>{{ 'fmdd_email_order_admin.email.header'|trans({'%order_number%': order.number }) }}</h2>
     <ul>
@@ -61,6 +60,7 @@
         <tr>
             <td style="padding: 5px; font-weight: bold; width:250px">{{ 'fmdd_email_order_admin.email.articles.reference'|trans }}</td>
             <td style="padding: 5px; font-weight: bold; width:50px">{{ 'fmdd_email_order_admin.email.articles.quantity'|trans }}</td>
+            <td style="padding: 5px; font-weight: bold; width:50px">{{ 'fmdd_email_order_admin.email.articles.pu'|trans }}</td>
             <td style="padding: 5px; font-weight: bold; width:50px">{{ 'fmdd_email_order_admin.email.articles.price'|trans }}</td>
         </tr>
         </thead>
@@ -73,12 +73,67 @@
                     <td style="padding: 5px;">{{ item.variant.code }} - {{ item.variant.name }} </td>
                 {% endif %}
                 <td style="padding: 5px;">{{ item.quantity }}</td>
+                <td style="padding: 5px;">{{ item.unitPrice|sylius_format_money(order.currencyCode, order.localeCode) }}</td>
                 <td style="padding: 5px;">{{ item.total|sylius_format_money(order.currencyCode, order.localeCode) }}</td>
             </tr>
         {% endfor %}
-
-        {% include '@SyliusShop/Common/Order/Table/_totals.html.twig' %}
         </tbody>
     </table>
 
+    {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
+
+
+    {% set itemsSubtotal = sylius_order_items_subtotal(order) %}
+    {% set taxIncluded = sylius_order_tax_included(order) %}
+    {% set taxExcluded = sylius_order_tax_excluded(order) %}
+    <div class="shopping-cart-total">
+        <h2>{{ 'sylius.ui.summary'|trans }}</h2>
+        <div class="shop-table table-responsive">
+            <table>
+                <tbody>
+                <tr class="cart-subtotal">
+                    <td>{{ "shop.cart.sub_total"|trans({}, 'messages') }} {{ "product.ht"|trans({}, 'messages') }}</td>
+                    <td>{{ money.convertAndFormat(itemsSubtotal) }}</td>
+                </tr>
+                {% if taxExcluded %}
+                    <tr class="cart-tax">
+                        <td>{{ 'sylius.ui.tax'|trans }}</td>
+                        <td>{{ money.convertAndFormat(taxExcluded) }}</td>
+                    </tr>
+                {% endif %}
+                {% if taxIncluded %}
+                    <tr class="cart-tax">
+                        <td>{{ 'sylius.ui.tax'|trans }} {{ 'sylius.ui.included_in_price'|trans }}</td>
+                        <td>{{ money.convertAndFormat(taxIncluded) }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if order.shipments is not empty %}
+                    <tr class="shipping">
+                        <td>{{ 'sylius.ui.shipping_estimated_cost'|trans }}</td>
+                        <td>{{ money.convertAndFormat(order.shippingTotal) }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if order.orderPromotionTotal %}
+                    <tr class="shipping">
+                        <td>{{ 'sylius.ui.discount'|trans }}</td>
+                        <td>{{ money.convertAndFormat(order.orderPromotionTotal) }}</td>
+                    </tr>
+                {% endif %}
+
+                <tr class="order-total">
+                    <td>{{ 'sylius.ui.order_total'|trans }}</td>
+                    <td><strong>{{ money.convertAndFormat(order.total) }}</strong></td>
+                </tr>
+                {% if order.currencyCode is not same as(sylius.currencyCode) %}
+                    <tr class="order-total">
+                        <td>{{ 'sylius.ui.base_currency_order_total'|trans }}</td>
+                        <td><strong>{{ money.format(order.total, order.currencyCode) }}</strong></td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

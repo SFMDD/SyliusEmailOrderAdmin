@@ -11,8 +11,19 @@ winzou_state_machine:
           do: ["@fmdd.email_manager.order_payed", "sendOrderPayedEmail"]
           args: ['object.getOrder()']
 
+  sylius_order_checkout:
+    callbacks:
+      after:
+        app_order_created_email:
+          on: ['complete']
+          do: ["@fmdd.email_manager.order_payed", "sendOrderCreatedEmail"]
+          args: ['object']
+
 sylius_mailer:
   emails:
     order_payed:
       subject: "New order"
       template: "@FMDDSyliusEmailOrderAdminPlugin/Email/boughtRequest.html.twig"
+    order_created:
+      subject: "New order"
+      template: "@FMDDSyliusEmailOrderAdminPlugin/Email/orderCreated.html.twig"

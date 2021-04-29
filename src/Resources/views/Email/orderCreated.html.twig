@@ -1,0 +1,11 @@
+{% extends '@FMDDSyliusEmailOrderAdminPlugin/Email/layout_email.html.twig' %}
+
+{% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
+
+{% block subject %}
+    {{ order.channel.name }} - Commande en attente de paiement {{ order.number }}
+{% endblock %}
+
+{% block body_email %}
+    {{ order.channel.name }} - Commande en attente de paiement {{ order.number }}
+{% endblock %}

@@ -31,7 +31,9 @@ class EmailManager
      */
     public function sendOrderPayedEmail(OrderInterface $order)
     {
-        $this->emailSender->send('order_payed', $this->emails, ['order' => $order]);
+        if(!empty($this->emails)) {
+            $this->emailSender->send('order_payed', $this->emails, ['order' => $order]);
+        }
     }
 
     /**
@@ -39,6 +41,8 @@ class EmailManager
      */
     public function sendOrderCreatedEmail(OrderInterface $order)
     {
-        $this->emailSender->send('order_created', $this->emails, ['order' => $order]);
+        if(!empty($this->emails)) {
+            $this->emailSender->send('order_created', $this->emails, ['order' => $order]);
+        }
     }
 }

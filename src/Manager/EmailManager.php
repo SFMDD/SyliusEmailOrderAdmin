@@ -33,4 +33,12 @@ class EmailManager
     {
         $this->emailSender->send('order_payed', $this->emails, ['order' => $order]);
     }
+
+    /**
+     * @param OrderInterface $order
+     */
+    public function sendOrderCreatedEmail(OrderInterface $order)
+    {
+        $this->emailSender->send('order_created', $this->emails, ['order' => $order]);
+    }
 }

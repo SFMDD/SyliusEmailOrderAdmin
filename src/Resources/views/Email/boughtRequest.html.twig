@@ -67,9 +67,15 @@
         {% for item in order.items %}
             <tr>
                 {% if item.variant.product.simple %}
-                    <td style="padding: 5px;">{{ item.variant.product.code }}- {{ item.variant.product.name }} </td>
+                    <td style="padding: 5px;">{{ item.variant.product.code }} - {{ item.variant.product.name }}</td>
                 {% else %}
-                    <td style="padding: 5px;">{{ item.variant.code }} - {{ item.variant.name }} </td>
+                    <td style="padding: 5px;">
+                        {{ item.variant.code }} - {{ item.variant.name }}
+                        <br>
+                        {% for value in item.variant.optionValues %}
+                            {% if not loop.first %} | <u>{{ value.name }} :</u> <b>{{ value.value }}</b>
+                        {% endfor %}
+                    </td>
                 {% endif %}
                 <td style="padding: 5px;">{{ item.quantity }}</td>
                 <td style="padding: 5px;">{{ item.unitPrice|sylius_format_money(order.currencyCode, order.localeCode) }}</td>
@@ -137,6 +143,6 @@
             </table>
         </div>
     </div>
-    <h3>NOTE CUSTOMER :</h3>
+    <h3>Note du client :</h3>
     <p>{{ order.notes }}</p>
 {% endblock %}

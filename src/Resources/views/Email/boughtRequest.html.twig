@@ -73,7 +73,7 @@
                         {{ item.variant.code }} - {{ item.variant.name }}
                         <br>
                         {% for value in item.variant.optionValues %}
-                            {% if not loop.first %} | <u>{{ value.name }} :</u> <b>{{ value.value }}</b>
+                            {% if not loop.first %} | {% endif %}<u>{{ value.name }} :</u> <b>{{ value.value }}</b>
                         {% endfor %}
                     </td>
                 {% endif %}

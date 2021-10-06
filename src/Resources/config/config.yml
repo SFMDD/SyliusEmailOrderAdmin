@@ -6,7 +6,7 @@ winzou_state_machine:
   sylius_payment:
     callbacks:
       after:
-        app_order_payed_email:
+        fmdd_email_order_payed:
           on: ['complete']
           do: ["@fmdd.email_manager.order_payed", "sendOrderPayedEmail"]
           args: ['object.getOrder()']
@@ -14,7 +14,7 @@ winzou_state_machine:
   sylius_order_checkout:
     callbacks:
       after:
-        app_order_created_email:
+        fmdd_order_created:
           on: ['complete']
           do: ["@fmdd.email_manager.order_payed", "sendOrderCreatedEmail"]
           args: ['object']

@@ -6,7 +6,7 @@
     {% set firstName = order.customer.firstName is not empty ? order.customer.firstName : order.shippingAddress.firstName %}
     {% set lastName = order.customer.lastName is not empty ? order.customer.lastName : order.shippingAddress.lastName %}
 
-    {{ 'fmdd_email_order_admin.email.subject'|trans({'%order_number%': order.number, '%customer_firstname%': firstName, '%customer_lastname%': lastName }) }}
+    {{ 'sylius.ui.new_order'|trans ~' ' }} {{ money.format(order.total, order.currencyCode) }} - {{ order.channel.name|upper }}
 {% endblock %}
 
 {% block body_email %}
@@ -14,18 +14,24 @@
     {% set lastName = order.customer.lastName is not empty ? order.customer.lastName : order.shippingAddress.lastName %}
     {% set phoneNumber = order.customer.phoneNumber is not empty ? order.customer.phoneNumber : order.shippingAddress is not null ? order.shippingAddress.phoneNumber : ' ' %}
 
-    <h2>{{ 'fmdd_email_order_admin.email.header'|trans({'%order_number%': order.number }) }}</h2>
+    <h2>{{ 'sylius.ui.details'|trans ~' '~'sylius.ui.order'|trans }} : #{{ order.number }}</h2>
     <ul>
-        <li>{{ 'fmdd_email_order_admin.email.name'|trans({'%customer_firstname%': firstName, '%customer_lastname%': lastName }) }}</li>
-        <li>{{ 'fmdd_email_order_admin.email.email'|trans({'%customer_email%': order.customer.email }) }}</li>
-        <li>{{ 'fmdd_email_order_admin.email.phone'|trans({'%customer_phone_number%': phoneNumber }) }}</li>
+        <li>{{ 'sylius.ui.name'|trans }}: {{ firstname }} {{ lastname|upper }}</li>
+        <li>{{ 'sylius.ui.email'|trans }}: {{ order.customer.email }}</li>
+        <li>{{ 'sylius.ui.phone_number'|trans }}: {{ phoneNumber }}</li>
+        {% if order.payments is not empty %}
+            <li>{{ 'sylius.ui.payment_method'|trans }} : {{ order.payments.last.name }}</li>
+        {% endif %}
+        {% if order.shipments is not empty %}
+            <li>{{ 'sylius.ui.shipping_method'|trans }} : {{ order.shipments.last.name }}</li>
+        {% endif %}
     </ul>
 
     <table border="1">
         <thead>
         <tr>
-            <td style="padding: 5px; font-weight: bold; width:250px">{{ 'fmdd_email_order_admin.email.delivery_address'|trans }}</td>
-            <td style="padding: 5px; font-weight: bold; width:250px">{{ 'fmdd_email_order_admin.email.invoice_address'|trans }}</td>
+            <td style="padding: 5px; font-weight: bold; width:250px">{{ 'sylius.ui.shipping_address'|trans }}</td>
+            <td style="padding: 5px; font-weight: bold; width:250px">{{ 'sylius.ui.billing_address'|trans }}</td>
         </tr>
         </thead>
         <tbody>
@@ -52,12 +58,15 @@
         </tbody>
     </table>
 
-    <h2>{{ 'fmdd_email_order_admin.email.articles.header'|trans }}</h2>
+    <h2>Notes :</h2>
+    <p>{{ order.notes }}</p>
+
+    <h2>{{ 'sylius.ui.products'|trans }}</h2>
 
     <table border="1">
         <thead>
         <tr>
-            <td style="padding: 5px; font-weight: bold; width:250px">{{ 'fmdd_email_order_admin.email.articles.reference'|trans }}</td>
+            <td style="padding: 5px; font-weight: bold; width:250px">{{ 'sylius.ui.code'|trans }}</td>
             <td style="padding: 5px; font-weight: bold; width:50px">{{ 'sylius.ui.qty'|trans }}</td>
             <td style="padding: 5px; font-weight: bold; width:50px">{{ 'sylius.ui.unit_price'|trans }} {{ 'fmdd_email_order_admin.email.articles.tax.exclude'|trans }}</td>
             <td style="padding: 5px; font-weight: bold; width:50px">{{ 'sylius.ui.subtotal'|trans }} {{ 'fmdd_email_order_admin.email.articles.tax.include'|trans }}</td>
@@ -113,14 +122,14 @@
                     </tr>
                 {% endif %}
 
-                    <tr class="shipping">
-                        <td>{{ 'sylius.ui.shipping_estimated_cost'|trans }}</td>
-                        {% if order.shipments is not empty %}
-                            <td>{{ money.convertAndFormat(order.shippingTotal) }}</td>
-                        {% else %}
-                            <td>No Set</td>
-                        {% endif %}
-                    </tr>
+                <tr class="shipping">
+                    <td>{{ 'sylius.ui.shipping_estimated_cost'|trans }}</td>
+                    {% if order.shipments is not empty %}
+                        <td>{{ money.convertAndFormat(order.shippingTotal) }}</td>
+                    {% else %}
+                        <td>No Set</td>
+                    {% endif %}
+                </tr>
 
                 {% if order.orderPromotionTotal %}
                     <tr class="shipping">
@@ -143,6 +152,4 @@
             </table>
         </div>
     </div>
-    <h3>Note du client :</h3>
-    <p>{{ order.notes }}</p>
 {% endblock %}

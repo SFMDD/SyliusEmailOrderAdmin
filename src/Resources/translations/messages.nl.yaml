@@ -1,16 +1,5 @@
 fmdd_email_order_admin:
     email:
-        subject: 'Nieuwe bestelling door %customer_firstname% %customer_lastname%'
-        header: 'Details van de bestelling: #%order_number%'
-        name: 'Naam: %customer_firstname% %customer_lastname%'
-        email: 'E-mailadres: %customer_email%'
-        phone: 'Telefoonnummer: %customer_phone_number%'
-        delivery_address: 'Bezorgadres'
-        invoice_address: 'Factuuradres'
         articles:
-            header: 'Artikelen'
-            reference: 'Referentie'
-            quantity: 'Aantal'
             tax.exclude: "excl. taxes."
             tax.include: "incl. taxes"
-            price: 'Prijs'

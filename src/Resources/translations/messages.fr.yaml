@@ -1,16 +1,5 @@
 fmdd_email_order_admin:
     email:
-        subject: 'Nouvelle commande de %customer_firstname% %customer_lastname%'
-        header: 'Détails de la commande : #%order_number%'
-        name: 'Prénom/Nom : %customer_firstname% %customer_lastname%'
-        email: 'Email : %customer_email%'
-        phone: 'Téléphone : %customer_phone_number%'
-        delivery_address: 'Adresse de livraison'
-        invoice_address: 'Adresse de facturation'
         articles:
-            header: 'Articles'
-            reference: 'Référence'
-            quantity: 'Quantité'
             tax.exclude: "HT"
             tax.include: "TTC"
-            price: 'Price'

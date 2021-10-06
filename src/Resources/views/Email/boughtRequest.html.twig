@@ -3,9 +3,6 @@
 {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
 
 {% block subject %}
-    {% set firstName = order.customer.firstName is not empty ? order.customer.firstName : order.shippingAddress.firstName %}
-    {% set lastName = order.customer.lastName is not empty ? order.customer.lastName : order.shippingAddress.lastName %}
-
     {{ 'sylius.ui.new_order'|trans ~' ' }} {{ money.format(order.total, order.currencyCode) }} - {{ order.channel.name|upper }}
 {% endblock %}
 

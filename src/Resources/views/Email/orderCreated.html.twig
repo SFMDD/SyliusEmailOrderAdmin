@@ -3,9 +3,9 @@
 {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
 
 {% block subject %}
-    {{ order.channel.name }} - Commande en attente de paiement {{ order.number }}
+    {{ 'sylius.ui.order'|trans ~' ' }} {{ 'sylius.ui.awaiting_payment'|trans }} #{{ order.number }} - {{ order.channel.name|upper }}
 {% endblock %}
 
 {% block body_email %}
-    {{ order.channel.name }} - Commande en attente de paiement {{ order.number }}
+    {{ 'sylius.ui.order'|trans ~' ' }} {{ 'sylius.ui.awaiting_payment'|trans }} #{{ order.number }} - {{ order.channel.name|upper }}
 {% endblock %}

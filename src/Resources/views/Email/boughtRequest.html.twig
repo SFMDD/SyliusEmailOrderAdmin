@@ -91,9 +91,6 @@
         </tbody>
     </table>
 
-    {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
-
-
     {% set itemsSubtotal = sylius_order_items_subtotal(order) %}
     {% set taxIncluded = sylius_order_tax_included(order) %}
     {% set taxExcluded = sylius_order_tax_excluded(order) %}
@@ -149,4 +146,6 @@
             </table>
         </div>
     </div>
+    <h3>Note :</h3>
+    <p>{{ order.notes }}</p>
 {% endblock %}

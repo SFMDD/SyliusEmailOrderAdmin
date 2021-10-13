@@ -13,14 +13,14 @@
 
     <h2>{{ 'sylius.ui.details'|trans ~' '~'sylius.ui.order'|trans }} : #{{ order.number }}</h2>
     <ul>
-        <li>{{ 'sylius.ui.name'|trans }}: {{ firstname }} {{ lastname|upper }}</li>
+        <li>{{ 'sylius.ui.name'|trans }}: {{ firstName }} {{ lastName|upper }}</li>
         <li>{{ 'sylius.ui.email'|trans }}: {{ order.customer.email }}</li>
         <li>{{ 'sylius.ui.phone_number'|trans }}: {{ phoneNumber }}</li>
         {% if order.payments is not empty %}
-            <li>{{ 'sylius.ui.payment_method'|trans }} : {{ order.payments.last.name }}</li>
+            <li>{{ 'sylius.ui.payment_method'|trans }} : {{ order.payments.last.method.name }}</li>
         {% endif %}
         {% if order.shipments is not empty %}
-            <li>{{ 'sylius.ui.shipping_method'|trans }} : {{ order.shipments.last.name }}</li>
+            <li>{{ 'sylius.ui.shipping_method'|trans }} : {{ order.shipments.last.method.name }}</li>
         {% endif %}
     </ul>
 

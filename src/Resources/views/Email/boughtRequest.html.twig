@@ -1,12 +1,12 @@
 {% extends '@FMDDSyliusEmailOrderAdminPlugin/Email/layout_email.html.twig' %}
 
-{% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
-
 {% block subject %}
+    {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
     {{ 'sylius.ui.new_order'|trans ~' ' }} {{ money.format(order.total, order.currencyCode) }} - {{ order.channel.name|upper }}
 {% endblock %}
 
 {% block body_email %}
+    {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
     {% set firstName = order.customer.firstName is not empty ? order.customer.firstName : order.shippingAddress.firstName %}
     {% set lastName = order.customer.lastName is not empty ? order.customer.lastName : order.shippingAddress.lastName %}
     {% set phoneNumber = order.customer.phoneNumber is not empty ? order.customer.phoneNumber : order.shippingAddress is not null ? order.shippingAddress.phoneNumber : ' ' %}

@@ -2,10 +2,10 @@
     "name": "fmdd/sylius-email-order-admin",
     "type": "sylius-plugin",
     "keywords": ["sylius", "sylius-plugin"],
-    "description": "Plugin for sylius, to send a email hen order has payed.",
+    "description": "Plugin for Sylius to send an email when order has been payed.",
     "license": "MIT",
     "require": {
-        "php": "^7.4",
+        "php": "^7.4 || ^8.0",
         "sylius/sylius": "^1.7"
     },
     "require-dev": {
